@@ -1,0 +1,298 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+
+    <link rel="stylesheet" type="text/css" href="forecaster.css">
+    <meta charset="UTF-8">
+
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Oleo+Script');
+        @import url('https://fonts.googleapis.com/css?family=Voltaire');
+    </style>
+
+       <script>
+        var xhr = new XMLHttpRequest();
+//  If you would like to switch back to the JSON file only, please uncomment line 18 and comment out line 19
+           
+//        var daily = "daily.json";
+        var daily = "http://api.openweathermap.org/data/2.5/forecast/daily?id=2964574&units=metric&APPID=1f0867a1f0c8ffc3bd29767c8aed1cb2";
+        var weatherData;
+
+
+
+        xhr.onreadystatechange = function () {
+            console.log("Hi");
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                weatherData = JSON.parse(xhr.responseText);
+
+            }
+        };
+
+        xhr.open("GET", daily, true);
+        xhr.send();
+
+        function dailyWeather(obj) {
+
+            var out = "";
+            var i;
+            var slider = document.getElementById("slider");
+    
+            
+
+            for (i = 0; i < slider.value; i++) {
+
+                out +=
+                    '<div>' +
+
+                    '<p style="text-align: left"></p>' +
+                    '<div id="icon' + i +'" class="icon">' +
+                    '<p>' + obj.list[i].weather[0].description + '</p>' +
+                   
+                    '</div>' +
+                    
+
+                    '<div id="tabletemp">' +
+                    '<table id="tempinfo" cellspacing="10">' +
+                    '<tr>' +
+                    '<td><b>Day</b></td>' +
+                    '<td><b>Min</b></td>' +
+                    '<td><b>Max</b></td>' +
+                    '<td><b>Night</b></td>' +
+                    '<td><b>Eve</b></td>' +
+                    '<td><b>Morn</b></td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td>' + obj.list[i].temp.day + ' &#x2103;</td>' +
+                    '<td>' + obj.list[i].temp.min + ' &#x2103;</td>' +
+                    '<td>' + obj.list[i].temp.max + ' &#x2103;</td>' +
+                    '<td>' + obj.list[i].temp.night + ' &#x2103;</td>' +
+                    '<td>' + obj.list[i].temp.eve + ' &#x2103;</td>' +
+                    '<td>' + obj.list[i].temp.morn + ' &#x2103;</td>' +
+                    '</tr>' +
+
+                    '</table>' +
+
+                    '</div>' +
+
+                    '<div id="super">' +
+
+                    '<button id="pressure" type="button" class="showmore" data-text-swap="' + obj.list[i].pressure + 'hPa">Pressure</button>' +
+                    '<button id="humidity" type="button" class="showmore" data-text-swap="' + obj.list[i].humidity + '%">Humidity</button>' +
+                    '<button id="wind" type="button" class="showmore" data-text-swap="' + obj.list[i].speed + 'm/s">Wind</button>' +
+                    '</div>' +
+
+                    '</div>'
+
+                out += '<button class="accordion">Show more</button><div class="panel">';
+                out += detailedWeather(detailedWeatherData, obj.list[i].dt);
+                out += '</div>';
+                
+            }
+
+            document.getElementById("dailyweather").innerHTML = out;
+            for (i = 0; i < slider.value; i++){
+              document.getElementById("icon" + i).style.background = "#919bbe url(http://openweathermap.org/img/w/" +       obj.list[i].weather[0].icon + ".png) no-repeat center center";
+                document.getElementById("icon" + i).style.background.size = "500px 500px" 
+            }
+            return false;
+        }
+
+        var xhrr = new XMLHttpRequest();
+           
+//  If you would like to switch back to the JSON file only, please uncomment line 105 and comment out line 107  
+           
+//        var detailed = "detailed.json";
+           
+        var detailed = "http://api.openweathermap.org/data/2.5/forecast/city?id=2964574&units=metric&APPID=1f0867a1f0c8ffc3bd29767c8aed1cb2";
+        var detailedWeatherData;
+
+
+
+        xhrr.onreadystatechange = function () {
+            if (xhrr.readyState == 4 && xhrr.status == 200) {
+                detailedWeatherData = JSON.parse(xhrr.responseText);
+            }
+        };
+
+        xhrr.open("GET", detailed, true);
+        xhrr.send();
+
+
+
+
+        function detailedWeather(det, timestamp) {
+
+            var out1 = "<table>";
+            var item;
+
+            out1 += '<tr><th>Time</th><th>Icon</th><th>Description</th><th>Max</th><th>Min</th><th>Humidity</th><th>Pressure</th><th>Wind</th><th>Cloud</th><th>Rain</th></tr>'
+
+            for (item of det.list) {
+                var current = new Date(timestamp * 1000).setHours(0, 0, 0, 0);
+                var previous = new Date(item.dt * 1000).setHours(0, 0, 0, 0);
+                var time = new Date(item.dt * 1000).getUTCHours();
+                if (current === previous) {
+                    out1 += '<tr>'
+                    out1 += '<td>' + time + '</td>';
+                    out1 += '<td><img src="http://openweathermap.org/img/w/' + item.weather[0].icon + '.png"></td>';
+                    out1 += '<td>' + item.weather[0].description + '</td>';
+                    out1 += '<td>' + item.main.temp_max + '&#x2103;</td>';
+                    out1 += '<td>' + item.main.temp_min + '&#x2103;</td>';
+                    out1 += '<td>' + item.main.humidity + '%</td>';
+                    out1 += '<td>' + item.main.pressure + 'hPa</td>';
+                    out1 += '<td>' + item.wind.speed + 'm/s</td>';
+                    out1 += '<td>' + item.clouds.all + '%</td>';
+                    out1 += '<td>' + item.rain["3h"] + 'mm</td>';
+                    out1 += '</tr>'
+
+                }
+            }
+
+            out1 += "</table>";
+            return out1;
+        }
+
+
+        window.onload = function () {
+            var slider = document.getElementById('slider');
+            var days = document.getElementById("daynum");
+            days.textContent = "Days: " + slider.value;
+
+            slider.onchange = function () {
+                days.textContent = "Days: " + slider.value;
+            }
+
+            //Reference dynamic buttons - https://www.kirupa.com/html5/handling_events_for_many_elements.htm
+            var parent = document.getElementById("dailyweather");
+            parent.addEventListener('click', doSomething, false);
+
+            function doSomething(e) {
+                if (e.target !== e.currentTarget) {
+                    var clickedItem = e.target;
+                    console.log(clickedItem);
+                    if (clickedItem.tagName == "BUTTON" && !clickedItem.classList.contains("accordion")) {
+                        if (clickedItem.getAttribute("data-text-swap") == clickedItem.innerHTML) {
+                            clickedItem.innerHTML = clickedItem.getAttribute("data-text-original");
+                            clickedItem.style.height = "40px";
+                        } else {
+                            clickedItem.setAttribute("data-text-original", clickedItem.innerHTML);
+                            clickedItem.innerHTML = clickedItem.getAttribute("data-text-swap");
+                            clickedItem.style.transition = "height 0.4s";
+                            clickedItem.style.height = "40px";
+                        }
+
+                    } else if (clickedItem.classList.contains("accordion")) {
+                        clickedItem.classList.toggle("active");
+                        clickedItem.nextElementSibling.classList.toggle("show");
+
+                    }
+                    e.stopPropagation();
+                }
+            }
+
+
+        }
+
+        var acc = document.getElementsByClassName("accordion");
+        var i;
+
+        for (i = 0; i < acc.length; i++) {
+            acc[i].onclick = function () {
+                this.classList.toggle("active");
+                this.nextElementSibling.classList.toggle("show");
+            }
+        }
+    </script>
+</head>
+
+<body>
+
+
+
+    <div style="position: fixed; z-index: -99; width: 100%; height: 100%">
+        <iframe frameborder="0" allowfullscreen height="100%" width="100%" src="https://youtube.com/embed/3mpmMSMXupU?&loop=1&start=6&end=170&rel=0&autoplay=1&modestbranding=1&controls=0&disablekb=1&showinfo=0&autohide=1&playsinline=0&playlist=3mpmMSMXupU">
+        </iframe>
+
+    </div>
+
+
+
+    <div id="header">
+        <h1> Dublin 5 Day Forecast</h1>
+    </div>
+
+
+    <div id="map">
+        <script>
+            //Reference - Map - Google Developer tools (for access to API etc) - https://developers.google.com/maps/documentation/embed/guide
+            function initMap() {
+
+
+                var location = {
+                    lat: 53.3498,
+                    lng: -6.2603
+                };
+                var map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 11,
+                    center: location,
+                    scrollwheel: false,
+                    styles: [{"featureType":"administrative","elementType":"all","stylers":[{"visibility":"on"},{"saturation":"-32"},{"lightness":"65"}]},{"featureType":"administrative","elementType":"geometry","stylers":[{"visibility":"on"}]},{"featureType":"administrative","elementType":"labels","stylers":[{"visibility":"on"}]},{"featureType":"administrative","elementType":"labels.text.fill","stylers":[{"color":"#444444"}]},{"featureType":"landscape","elementType":"all","stylers":[{"visibility":"off"},{"hue":"#001cff"},{"saturation":"67"}]},{"featureType":"poi","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"poi","elementType":"geometry.fill","stylers":[{"visibility":"off"}]},{"featureType":"poi","elementType":"labels.text.fill","stylers":[{"visibility":"on"}]},{"featureType":"road","elementType":"all","stylers":[{"saturation":"59"},{"visibility":"on"},{"lightness":"0"},{"weight":"0.30"},{"gamma":"2.81"},{"hue":"#0009ff"}]},{"featureType":"road","elementType":"geometry.fill","stylers":[{"visibility":"on"}]},{"featureType":"road","elementType":"labels.text","stylers":[{"hue":"#2500ff"}]},{"featureType":"road","elementType":"labels.icon","stylers":[{"hue":"#0013ff"}]},{"featureType":"road.highway","elementType":"all","stylers":[{"visibility":"simplified"}]},{"featureType":"road.arterial","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"transit","elementType":"all","stylers":[{"visibility":"off"}]},{"featureType":"water","elementType":"all","stylers":[{"color":"#132a76"},{"visibility":"on"}]}]
+                });
+            
+                
+                var marker = new google.maps.Marker({
+                    position: location,
+                    map: map
+                });
+                
+            var trafficLayer = new google.maps.TrafficLayer();
+                trafficLayer.setMap(map);
+            }
+        </script>
+
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDzJ_5A5pYGHFTew_qTlzv-MfJv4uBsryU&callback=initMap">
+        </script>
+
+    </div>
+
+    <div id="infodiv">
+        <div id="infosection">
+            This website aims to provide up to date weather information for Dublin, Ireland for 5 days. Please click the number of days that you want to display the weather for. <br>
+            
+            <h3> How the weather selection works:</h3>
+            <b>Step 1:</b> Select number of days on slider and click select <br> <br>
+           <b>Step 2</b>: To show more information regarding the weather for any particular day click show more <br><br>
+            <b>Step 3:</b> If you would like to see information on Wind, Humidity, or Pressure please click the buttons. To hide the information click the button again.
+    
+           
+        </div>
+    </div>
+
+    <div id="slidercontainer">
+
+        <h1 style="font-size: 20px">Select number of days:</h1>
+
+        <form onsubmit="return dailyWeather(weatherData);">
+            <label id="daynum" for="points">Days: 1</label>
+            <input id="slider" type="range" id="points" min="1" max="5" value="1">
+            <input id="wind" type="submit" data-inline="true" value="Submit">
+        </form>
+
+    </div>
+
+    <center>
+        <div id="dailyweather"></div>
+    </center>
+    <center>
+        <div id="detailedweather"></div>
+    </center>
+
+
+
+ 
+
+
+</body>
+
+</html>
