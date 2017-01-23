@@ -1,0 +1,191 @@
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+    
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="UTF-8">
+    
+<style>
+    
+    @import 'https://fonts.googleapis.com/css?family=Josefin+Slab';
+    @import 'https://fonts.googleapis.com/css?family=Arvo';
+    @import 'https://fonts.googleapis.com/css?family=Lato';
+    
+</style>
+    
+    <title>Contact us</title>
+    
+</head>
+    
+<body>
+
+<header>
+        <nav>
+        <ul class="nav" id="mytopnav">
+            <li><a href="index.html" >Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="adopt.html">Adopt</a></li>
+            <li><a href="news.html">News</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+
+    <div class="topcontainer">
+
+        <div style="background-image:url(Images/banner4.jpg); background-position: 10% 80%" class="banner" >
+
+            <img class="banner" src="Images/banner4.jpg" alt="Contact Us banner">
+
+        </div>   
+
+            <h1 class="banner">Contact Us</h1>
+
+            <p class="banner">Hello? This is Dog.</p>
+    </div> 
+</header>
+ 
+
+<div class="container">
+ 
+    <section>
+        
+            <div class="form">
+<!-- Reference - Form - www.W3schools.com-->
+              <form action="index.html">
+                    <label for="fname">First Name</label>
+                    <input type="text" required id="fname" name="firstname">
+
+                    <label for="lname">Last Name</label>
+                    <input type="text" id="lname" name="lastname">
+
+                    <label for="lname">Phone Number</label>
+                    <input type="text" required id="phone" name="phone">
+
+                    <label for="lname">Email</label>
+                    <input type="text" required id="email" name="email">
+
+                    <label for="lname">Name of Dog relating to Query</label>
+                    <input type="text" id="Dogquery" name="query">
+
+                    <label for="county">County</label>
+                    <select id="county" name="county" style="font-size:16px; font-family:Lato; height:40px">
+                        <option value="antrim">Antrim</option>
+                        <option value="armagh">Armagh</option>
+                        <option value="carlow">Carlow</option>
+                        <option value="cavan">Cavan</option>
+                        <option value="clare">Clare</option>
+                        <option value="cork">Cork</option>
+                        <option value="derry">Derry</option>
+                        <option value="donegal">Donegal</option>
+                        <option value="down">Down</option>
+                        <option value="dublin">Dublin</option>
+                        <option value="fermanagh">Fermanagh</option>
+                        <option value="galway">Galway</option>
+                        <option value="kerry">Kerry</option>
+                        <option value="kildare">Kildare</option>
+                        <option value="kilkenny">Kilkenny</option>
+                        <option value="laois">Laois</option>
+                        <option value="leitrim">Leitrim</option>
+                        <option value="limerick">Limerick</option>
+                        <option value="longford">Longford</option>
+                        <option value="Loutha">Louth</option>
+                        <option value="Mayo">Mayo</option>
+                        <option value="Meath">Meath</option>
+                        <option value="Monaghan">Monaghan</option>
+                        <option value="Offaly">Offaly</option>
+                        <option value="Roscommon">Roscommon</option>
+                        <option value="Sligo">Sligo</option>
+                        <option value="Tipperary">Tipperary</option>
+                        <option value="Tyrone">Tyrone</option>
+                        <option value="Waterford">Waterford</option>
+                        <option value="Westmeath">Westmeath</option>
+                        <option value="Wexford">Wexford</option>
+                        <option value="Wicklow">Wicklow</option>
+                    </select>
+
+                    <input type="submit" value="Submit" >
+
+              </form>
+
+            </div>
+    </section>
+
+    <aside>
+        <div class="contact">
+            <h1> Come and Visit us!</h1>
+            <p>The National Animal Centre,<br/> 
+                Derryglogher, <br/>
+                Keenagh, <br/>
+                Co. Longford<br/></p>
+        </div> 
+
+
+        <div id="map">
+
+            <script>
+//Reference - Map - Google Developer tools (for access to API etc) - https://developers.google.com/maps/documentation/embed/guide
+              function initMap() {
+                var location = {lat: 53.625653, lng: -7.888277};
+                var map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 10,
+                    center: location,
+                    scrollwheel: false
+                });
+                var marker = new google.maps.Marker({
+                    position: location,
+                    map: map
+                });
+              }
+
+            </script>
+                    <script async defer
+                        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjENJDn2ps5TarV_B_8U1bvx0CUkDxl6E&callback=initMap">
+                    </script>
+
+         </div> 
+        
+    </aside>
+    
+</div>
+    
+<footer>
+<!-- *Reference  - Social media icons (just icons, not animations) - http://perfecticons.com/*/   -->
+	<div>
+		<div class="footer-info">
+			<p id="footertext">Copyright 2016 Charlotte Hearne. All rights reserved.</p>
+			<p><a href="#">Terms of Service</a> I <a href="#">Privacy</a></p>
+             <ul class="soc">
+                    <li><a class="soc-twitter" href="https://twitter.com/DogsTrust_IE?ref_src=twsrc%5Egoogle%7Ctwcamp%5Eserp%7Ctwgr%5Eauthor"></a></li>
+                    <li><a class="soc-facebook" href="https://www.facebook.com/DogsTrustIrelandOnline/"></a></li>
+                    <li><a class="soc-googleplus" href="https://www.linkedin.com/company/dogs-trust"></a></li>
+                    <li><a class="soc-linkedin" href="https://plus.google.com/101648696407682355288"></a></li>
+                </ul>
+		</div>
+		<div class="footer-links">
+			<ul>
+				<li><h4>DOGS TRUST</h4></li>
+				<li><a href="https://www.dogstrust.ie/about-us/">About Us</a></li>
+				<li><a href="https://www.dogstrust.ie/become-a-friend/">Meet The Team</a></li>
+				<li><a href="https://www.dogstrust.ie/rehoming/">What We Do</a></li>
+				<li><a href="https://www.dogstrust.ie/get-involved/">Get Involved</a></li>
+			</ul>
+			<ul>
+				<li><h4>ISPCA</h4></li>
+				<li><a href="http://www.ispca.ie/who_we_are/">About Us</a></li>
+				<li><a href="http://www.ispca.ie/news/">Meet The Team</a></li>
+				<li><a href="http://www.ispca.ie/what_we_do/">What We Do</a></li>
+				<li><a href="http://www.ispca.ie/donate/regular_donation/">Get Involved</a></li>
+			</ul>
+		</div>
+		<div class="clear"></div>
+	</div>
+</footer>
+
+
+    
+</body>
+
+</html>
